@@ -1,0 +1,24 @@
+{% extends 'login_base.html' %}
+{% block title %} Settings: Update Profile {% endblock %}
+{% block main %}
+    <div class="row">
+        <div class="col-xs-6 col-sm-3">
+            <ul class="nav nav-pills nav-stacked ">
+                <li class="active"><a href="#" onclick="return false">Profile</a></li>
+                <li><a href="{{ url_for('useraccounts.password') }}">Password</a></li>
+                <li><a href="#">EmailConfirm</a></li>
+                <li><a href="#">Blacklist</a></li>
+                <li><a href="#">Whitelist</a></li>
+                <li><a href="#">Rewardsetting</a></li>
+                <li><a href="#">Accountsetting</a></li>
+            </ul>
+        </div>
+        <div class="col-xs-6 col-sm-6">
+            {% import '_form.html' as forms %}
+            <form id="profile" action="" method="POST">
+                {{ forms.render(form) }}
+                <button type="submit" class="btn btn-primary" name="update">update</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
