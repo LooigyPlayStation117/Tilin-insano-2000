@@ -1,0 +1,59 @@
+{% extends 'login_base.html' %}
+{% block js %}
+<script type="text/javascript">
+    $('.delete-user').on('click', function (event) {
+        var url=$(this).attr('href');
+        url = url + '?delete_tag=true';
+        bootbox.confirm("Are you sure?", function (result) {
+            if(result){
+                $.ajax({
+                    url:url,
+                    type:'DELETE',
+                    success:function (result) {
+                        location.reload();
+                    }
+                });
+            }
+        });
+        return false;
+    })
+</script>
+{% endblock %}
+{% block main %}
+    <div class="col-md-12">
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Create_time</th>
+                        <th>Last_login_time</th>
+                        <th>Confirmed</th>
+                        <th>M&D</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ user.username}}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.role }}</td>
+                            <td>{{ user.create_time.strftime('%Y-%m-%d') }}</td>
+                            <td>{{ user.last_login_time.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                            <td>{{ user.confirmed }}</td>
+                            <td>
+                                <a href="{{ url_for('useraccounts.edit-user', username=user.username) }}" class="delete-user"><span class="glyphicon glyphicon-remove"></span></a>
+                                &nbsp
+                                <a href="{{ url_for('useraccounts.edit-user', username=user.username) }}"><span class="glyphicon glyphicon-edit"></span></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
