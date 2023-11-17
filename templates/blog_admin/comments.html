@@ -1,0 +1,129 @@
+{% extends 'login_base.html' %}
+
+{% block title %} Comments {% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-xs-2 col-sm-2">
+            <ul class="nav nav-pills nav-stacked ">
+                <li {% if disabled %}class="active"{% endif %}><a href="{{ url_for('blog_admin.comments') }}">Pending</a></li>
+                <li {% if disabled == False %}class="active"{% endif %}><a href="{{ url_for('blog_admin.comments_approved') }}">Approved</a></li>
+            </ul>
+        </div>
+        <div class="col-xs-10 col-sm-10">
+        <form class="form-inline" style="text-align: right;">
+              <div class="form-group">
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="keyword" name="keyword"
+                    {% if keyword %} value={{keyword}} {% endif %}>
+                  <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+                </div>
+              </div>
+        </form>
+        <br>
+        <table class="table table-striped">
+            <tr>
+                <th style="width: 5%">Item</th>
+                <th style="width: 15%">Author</th>
+                <th>Comment</th>
+                <th style="width: 20%">Actions</th>
+            </tr>
+
+            {% for comment in comments.items %}
+                <tr>
+                    <td><input type="checkbox" name="comments_ids" value="{{ comment.id }}"></td>
+                    <td>
+                        <p>{{ comment.author }}</p>
+                        <p>
+                            <a href="mailto:{{ comment.email }}" target="_top" title="{{ comment.email }}"><i class="fa fa-envelope" aria-hidden="ture"></i></a>
+                        </p>
+                    </td>
+                    <td style="word-wrap:break-word;word-break:break-all;">
+                        <div>
+                            {{ comment.body_html | safe }}
+                            <br>
+                            <p>
+                                <a href="{{ url_for('main.post_detail', post_id=comment.post_id) }}" target="_blank"><i class="fa fa-search" aria-hidden="true">{{ comment.post_title }}</i></a>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <i class="fa fa-clock-o" aria-hidden="true"></i> {{ comment.create_time.strftime('%Y-%m-%d %H:%M') }}
+                            </p>
+                        </div>
+                    </td>
+                    <td>
+                        {% if comment.disabled %}
+                        <a class="btn btn-success approve" href="{{ url_for('blog_admin.action', pickup=comment.id) }}" role="button">Approve</a>
+                        {% endif %}
+                        <a class="btn btn-danger delete" href="{{ url_for('blog_admin.action', pickup=comment.id) }}" role="button">Delete</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td></td><td colspan="3"> No record yet!</td>
+            {% endfor %}
+        </table>
+        {% if disabled %}
+        <a class="btn btn-danger" id="clear_comments" href="{{ url_for('blog_admin.comments_clear_action') }}" role="button">Clear</a>
+        {% endif %}
+        {% import '_pagination.html' as paginations %}
+        {{ paginations.render_pagination(comments) }}
+    </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+//approve event
+$('.approve').on('click', function (event) {
+    var url = $(this).attr('href');
+    url = url + '?ajax=true';
+    
+    $.ajax({
+        url: url,
+        type: 'PUT',
+        success: function (result) {
+            location.reload();
+        }
+    });
+    return false;
+});
+
+//delete event
+$('.delete').on('click', function (event) {
+    var url = $(this).attr('href');
+    url = url + '?ajax=true';
+
+    bootbox.confirm('Are you sure?', function (result) {
+        if(result){
+            $.ajax({
+                url: url,
+                type: 'DELETE',
+                success: function (result) {
+                    location.reload();
+
+                }
+            })
+        }
+
+    });
+    return false;
+});
+
+//clear event
+$('#clear_comments').on('click', function (event) {
+    var url = $(this).attr('href');
+    url = url + '?ajax=true&action=clear_comments';
+
+    bootbox.confirm('All comments will be deleted, Are you sure?', function (result) {
+        if(result){
+            $.ajax({
+                url: url,
+                type: 'DELETE',
+                success: function (result) {
+                    location.reload();
+                }
+            })
+        }
+    });
+    return false;
+});
+</script>
+{% endblock %}
