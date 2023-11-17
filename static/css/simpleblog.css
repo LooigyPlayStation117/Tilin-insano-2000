@@ -1,0 +1,20 @@
+.category-list{
+    border: 0px;
+}
+
+.group-list{
+    border: 0px;
+}
+
+.badge{
+    background-color: #47c1308a;
+}
+.label-default{
+    background-color: #337ab7;
+}
+.float-in-right{
+    float: right!important;
+}
+.float-in-left{
+    float: left!important;
+}
