@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Simple Blog</title>
+    {{ moment.include_jquery() }}
+    {{ moment.include_moment() }}
+    <!-- Bootstrap core CSS -->
+    <!--<link href={{ url_for('static',filename='css/bootstrap.min.css') }} rel="stylesheet">-->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom fonts for this template -->
+    <!--<link href={{ url_for('static',filename='css/font-awesome.min.css') }} rel="stylesheet" type="text/css">-->
+    <link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+    <link href={{ url_for('static',filename='css/clean-blog.min.css') }} rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/simpleblog.css') }}" rel="stylesheet">
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.9.0/styles/default.min.css">
+    <link href="https://cdn.bootcss.com/social-share.js/1.0.16/css/share.min.css" rel="stylesheet">
+    <style> html{display : none ; } </style>
+    <script>
+    if( self == top ) {
+              document.documentElement.style.display = 'block' ;
+       } else {
+           top.location = self.location ;
+       }
+    </script>
+    <!-- Custom styles for this template -->
+
+
+  </head>
+
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top" id="mainNav">
+        <div class="container-fluid">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ url_for('main.index') }}">Simple Blog</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item">
+                      <a class="nav-link" href="{{ url_for('main.index') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Sample Post</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{{ url_for('useraccounts.login') }}">SignIn</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    {% block header %}
+    <header class="masthead" style="background-image: url({{ url_for('static',filename='img/bg/home-bg.jpg') }})">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="site-heading">
+              <h1>Simple Blog</h1><br>
+                <span class="subheading">Coding · Thinking · Moving</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    {% endblock %}
+
+    <!-- Main Content -->
+    {% block main %}{% endblock %}
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <ul class="list-inline text-center">
+              <li class="list-inline-item">
+                <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+            <p class="copyright text-muted">Copyright &copy; Simple Blog 2018</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src={{ url_for('static',filename='js/jquery.min.js') }}></script>
+    <script src={{ url_for('static',filename='js/bootstrap.bundle.min.js') }}></script>
+    <script src={{ url_for('static',filename='js/bootstrap.min.js') }}></script>
+
+    <!-- Custom scripts for this template -->
+    <script src={{ url_for('static',filename='js/clean-blog.min.js') }}></script>
+    <script src="https://cdn.bootcss.com/social-share.js/1.0.16/js/social-share.min.js"></script>
+  {% block js %}
+  {% endblock %}
+  </body>
+
+</html>
